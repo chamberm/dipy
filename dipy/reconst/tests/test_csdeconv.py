@@ -22,6 +22,10 @@ from dipy.reconst.shm import (sf_to_sh, sh_to_sf, QballModel,
                               CsaOdfModel, sph_harm_ind_list)
 
 
+def calibration():
+    pass
+
+
 def test_csdeconv():
     SNR = 100
     S0 = 1
@@ -88,6 +92,9 @@ def test_csdeconv():
 
     aresponse2, aratio2 = auto_response(gtab, big_S, roi_radius=3, fa_thr=0.5)
     assert_array_almost_equal(aresponse[0], response[0])
+
+    # calibration
+    calibration()
 
 
 def test_odfdeconv():
