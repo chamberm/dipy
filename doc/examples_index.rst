@@ -91,6 +91,11 @@ DSI with Deconvolution
 
 - :ref:`example_reconst_dsid`
 
+Model Comparison with K-fold Cross-Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- :ref:`example_kfold_xval`
+
 --------------
 Fiber tracking
 --------------
@@ -105,6 +110,13 @@ Streamline analysis
 
 - :ref:`example_streamline_tools`
 - :ref:`example_streamline_length`
+
+------------
+Registration
+------------
+
+- :ref:`example_syn_registration_2d`
+- :ref:`example_syn_registration_3d`
 
 ------------
 Segmentation
