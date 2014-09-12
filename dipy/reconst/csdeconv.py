@@ -8,7 +8,7 @@ from dipy.reconst.multi_voxel import multi_voxel_fit
 from dipy.reconst.shm import (sph_harm_ind_list, real_sph_harm, order_from_ncoef,
                               sph_harm_lookup, lazy_index, SphHarmFit,
                               real_sym_sh_basis, sh_to_rh, gen_dirac,
-                              forward_sdeconv_mat, real_sph_harm2, sph_harm2)
+                              forward_sdeconv_mat)
 from dipy.data import get_sphere
 from dipy.core.geometry import cart2sphere
 from dipy.core.ndindex import ndindex
