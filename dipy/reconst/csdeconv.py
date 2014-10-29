@@ -693,6 +693,8 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
     response = (evals, S0)
     sphere = get_sphere('symmetric724')
 
+    msk = []
+
     no_params = ((sh_order + 1) * (sh_order + 2)) / 2
     response_p = np.ones(no_params)
     if mask is None:
@@ -705,7 +707,7 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
     sh_mask = m != 0
     where_dwi = lazy_index(~gtab.b0s_mask)
 
-    for num_it in range(1, iter):
+    for num_it in range(1, iter+1):
         r_sh_all = np.zeros(no_params)
         csd_model = ConstrainedSphericalDeconvModel(gtab, response,
                                                     None, sh_order)
@@ -722,6 +724,8 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
         single_peak_mask = (vals[:, 1] / vals[:, 0]) < peak_thr
         data = data[single_peak_mask]
         dirs = dirs[single_peak_mask]
+
+        msk.append(single_peak_mask)
 
         for num_vox in range(0, data.shape[0]):
             rotmat = vec2vec_rotmat(dirs[num_vox, 0], np.array([0, 0, 1]))
@@ -744,7 +748,7 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
 
         response_p = response
 
-    return response
+    return response, msk
 
 
 def fa_trace_to_lambdas(fa=0.08, trace=0.0021):
