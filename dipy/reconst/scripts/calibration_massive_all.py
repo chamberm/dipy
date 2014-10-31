@@ -50,7 +50,7 @@ def prepare_data_for_multi_shell(gtab, data):
 
 
 d = 'D:\H_schijf\Data\MASSIVE\Processed\stuff'
-do = 'D:\H_schijf\Data\MASSIVE\Processed\stuff\FA_mask'
+do = 'D:\H_schijf\Data\MASSIVE\Processed\stuff\Otsu_mask'
 f = 'DWIs_A_MD_C_native_rigid_2KS_ordered_shells_pos'
 b0_t = 1
 
@@ -75,21 +75,28 @@ sphere = get_sphere('symmetric724')
 
 from dipy.reconst.csdeconv import recursive_response
 
-import dipy.reconst.dti as dti
 
-tenmodel = dti.TensorModel(gtab)
+#import dipy.reconst.dti as dti
+#
+#tenmodel = dti.TensorModel(gtab)
+#
+#tenfit = tenmodel.fit(data, mask=data[..., 0] > 200)
+#
+#from dipy.reconst.dti import fractional_anisotropy
+#
+#FA = fractional_anisotropy(tenfit.evals)
+#
+#MD = dti.mean_diffusivity(tenfit.evals)
+#
+#wm_mask = (FA >= 0.1)
 
-tenfit = tenmodel.fit(data, mask=data[..., 0] > 200)
-
-from dipy.reconst.dti import fractional_anisotropy
-
-FA = fractional_anisotropy(tenfit.evals)
-
-MD = dti.mean_diffusivity(tenfit.evals)
-
-wm_mask = (FA >= 0.1)
 
 #wm_mask = np.ones(data.shape[0:3], dtype=bool)
+
+
+from dipy.segment.mask import median_otsu
+b0_mask, wm_mask = median_otsu(data, 2, 1)
+
 
 #if __name__=='__main__':
 #    freeze_support()
