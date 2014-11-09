@@ -109,7 +109,7 @@ class ConstrainedSphericalDeconvModel(OdfModel, Cache):
 
         if response is None:
             self.response = (np.array([0.0015, 0.0003, 0.0003]), 1)
-            self.S_r = estimate_response(gtab, self.response)
+            self.S_r = estimate_response(gtab, self.response[0], self.response[1])
             r_sh = np.linalg.lstsq(self.B_dwi, self.S_r[self._where_dwi])[0]
             r_rh = sh_to_rh(r_sh, m, n)
         elif isinstance(response, tuple):
