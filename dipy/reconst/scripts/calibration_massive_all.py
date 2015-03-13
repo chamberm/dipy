@@ -101,85 +101,85 @@ b0_mask, wm_mask = median_otsu(data, 2, 1)
 #if __name__=='__main__':
 #    freeze_support()
 
-response, msk = recursive_response(gtab, data, mask=wm_mask, sh_order=8,
-                              peak_thr=0.01, init_fa=0.08,
-                              init_trace=0.0021, iter=15, convergence=0.01,
-                              parallel=False)
-
-
-
-n_iter = np.shape(msk)[0]
-
-masks = np.zeros([n_iter, np.shape(data[wm_mask])[0]])
-for i in range(0, n_iter):
-    if i == 0 :
-        n_vox = np.shape(msk[0])[0]
-    else:
-        n_vox = np.sum(msk[i-1])
-    m = np.ones(n_vox)
-    for j in range(i)[::-1]:
-        m = unvec_CT(m, msk[j])
-    m = ~np.isnan(m)
-    masks[i, m] = 1
-
-m = unvec(masks, wm_mask)
-
-m = np.sum(m, 3)
-
-nib.save(nib.Nifti1Image(m, img.get_affine()), join(do, ''.join((f, '_single_fiber_mask_t001_nomask.nii'))))
-import scipy.io
-scipy.io.savemat(join(do, ''.join((f, '_single_fiber_response_t001_nomask.mat'))), mdict={'r_sh': response})
-np.save(join(do, ''.join((f, '_single_fiber_response_t001_nomask'))), response)
-
-
-#gd0, gd1, gd2, gd3, gd4 = prepare_data_for_multi_shell(gtab, data)
+#response, msk = recursive_response(gtab, data, mask=wm_mask, sh_order=8,
+#                              peak_thr=0.01, init_fa=0.08,
+#                              init_trace=0.0021, iter=15, convergence=0.01,
+#                              parallel=False)
 #
 #
-#for shell in range(0, 5):
-#    if shell == 0:
-#        gtab = gd0[0]
-#        data = gd0[1]
-#        she = '500'
-#    elif shell == 1:
-#        gtab = gd1[0]
-#        data = gd1[1]
-#        she = '1000'
-#    elif shell == 2:
-#        gtab = gd2[0]
-#        data = gd2[1]
-#        she = '2000'
-#    elif shell == 3:
-#        gtab = gd3[0]
-#        data = gd3[1]
-#        she = '3000'
-#    elif shell == 4:
-#        gtab = gd4[0]
-#        data = gd4[1]
-#        she = '4000'
 #
-#    response, msk = recursive_response(gtab, data, mask=wm_mask, sh_order=8,
-#                                  peak_thr=0.05, init_fa=0.08,
-#                                  init_trace=0.0021, iter=15, convergence=0.01,
-#                                  parallel=False)
+#n_iter = np.shape(msk)[0]
 #
-#    n_iter = np.shape(msk)[0]
+#masks = np.zeros([n_iter, np.shape(data[wm_mask])[0]])
+#for i in range(0, n_iter):
+#    if i == 0 :
+#        n_vox = np.shape(msk[0])[0]
+#    else:
+#        n_vox = np.sum(msk[i-1])
+#    m = np.ones(n_vox)
+#    for j in range(i)[::-1]:
+#        m = unvec_CT(m, msk[j])
+#    m = ~np.isnan(m)
+#    masks[i, m] = 1
 #
-#    masks = np.zeros([n_iter, np.shape(data[wm_mask])[0]])
-#    for i in range(0, n_iter):
-#        if i == 0 :
-#            n_vox = np.shape(msk[0])[0]
-#        else:
-#            n_vox = np.sum(msk[i-1])
-#        m = np.ones(n_vox)
-#        for j in range(i)[::-1]:
-#            m = unvec_CT(m, msk[j])
-#        m = ~np.isnan(m)
-#        masks[i, m] = 1
+#m = unvec(masks, wm_mask)
 #
-#    m = unvec(masks, wm_mask)
+#m = np.sum(m, 3)
 #
-#    m = np.sum(m, 3)
-#
-#    nib.save(nib.Nifti1Image(m, img.get_affine()), join(do, ''.join((f, '_single_fiber_mask_t005_SS', she, '_nomask.nii'))))
-#    scipy.io.savemat(join(do, ''.join((f, '_single_fiber_response_t005_SS', she, '_nomask.mat'))), mdict={'r_sh': response})
-#    np.save(join(do, ''.join((f, '_single_fiber_response_t005_SS', she, '_nomask'))), response)
+#nib.save(nib.Nifti1Image(m, img.get_affine()), join(do, ''.join((f, '_single_fiber_mask_t001_nomask.nii'))))
+#import scipy.io
+#scipy.io.savemat(join(do, ''.join((f, '_single_fiber_response_t001_nomask.mat'))), mdict={'r_sh': response})
+#np.save(join(do, ''.join((f, '_single_fiber_response_t001_nomask'))), response)
+
+
+gd0, gd1, gd2, gd3, gd4 = prepare_data_for_multi_shell(gtab, data)
+
+
+for shell in range(0, 5):
+    if shell == 0:
+        gtab = gd0[0]
+        data = gd0[1]
+        she = '500'
+    elif shell == 1:
+        gtab = gd1[0]
+        data = gd1[1]
+        she = '1000'
+    elif shell == 2:
+        gtab = gd2[0]
+        data = gd2[1]
+        she = '2000'
+    elif shell == 3:
+        gtab = gd3[0]
+        data = gd3[1]
+        she = '3000'
+    elif shell == 4:
+        gtab = gd4[0]
+        data = gd4[1]
+        she = '4000'
+
+    response, msk = recursive_response(gtab, data, mask=wm_mask, sh_order=8,
+                                  peak_thr=0.01, init_fa=0.05,
+                                  init_trace=0.0021, iter=15, convergence=0.01,
+                                  parallel=False)
+
+    n_iter = np.shape(msk)[0]
+
+    masks = np.zeros([n_iter, np.shape(data[wm_mask])[0]])
+    for i in range(0, n_iter):
+        if i == 0 :
+            n_vox = np.shape(msk[0])[0]
+        else:
+            n_vox = np.sum(msk[i-1])
+        m = np.ones(n_vox)
+        for j in range(i)[::-1]:
+            m = unvec_CT(m, msk[j])
+        m = ~np.isnan(m)
+        masks[i, m] = 1
+
+    m = unvec(masks, wm_mask)
+
+    m = np.sum(m, 3)
+
+    nib.save(nib.Nifti1Image(m, img.get_affine()), join(do, ''.join((f, '_single_fiber_mask_t005_SS', she, '_nomask.nii'))))
+    scipy.io.savemat(join(do, ''.join((f, '_single_fiber_response_t005_SS', she, '_nomask.mat'))), mdict={'r_sh': response})
+    np.save(join(do, ''.join((f, '_single_fiber_response_t005_SS', she, '_nomask'))), response)
