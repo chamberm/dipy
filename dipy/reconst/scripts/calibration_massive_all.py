@@ -96,7 +96,7 @@ from dipy.reconst.csdeconv import recursive_response
 
 from dipy.segment.mask import median_otsu
 b0_mask, wm_mask = median_otsu(data, 2, 1)
-
+range(0, 5)
 
 #if __name__=='__main__':
 #    freeze_support()
