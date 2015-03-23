@@ -901,6 +901,7 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
     S0 = 1
     evals = fa_trace_to_lambdas(init_fa, init_trace)
     res_obj = (evals, S0)
+    msk = []
 
     if mask is None:
         data = data.reshape(-1, data.shape[-1])
@@ -930,6 +931,8 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
         data = data[single_peak_mask]
         dirs = dirs[single_peak_mask]
 
+        msk.append(single_peak_mask)
+
         for num_vox in range(0, data.shape[0]):
             rotmat = vec2vec_rotmat(dirs[num_vox, 0], np.array([0, 0, 1]))
 
@@ -950,7 +953,7 @@ def recursive_response(gtab, data, mask=None, sh_order=8, peak_thr=0.01,
 
         response_p = response
 
-    return res_obj
+    return res_obj, msk
 
 
 def fa_trace_to_lambdas(fa=0.08, trace=0.0021):
