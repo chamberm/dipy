@@ -40,6 +40,7 @@ def nlmeans(arr, sigma, mask=None, patch_radius=1, block_radius=5, rician=True):
         sigma_arr = np.ones(arr.shape[-1], dtype=np.float32) * sigma
 
         for i in range(arr.shape[-1]):
+            print(i)
             sigma = sigma_arr[i]
             denoised_arr[..., i] = nlmeans_3d(arr[..., i],
                                               mask,
