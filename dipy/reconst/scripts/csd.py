@@ -33,6 +33,18 @@ wm='wm_2x2x2.nii'
 wm_img = nib.load(wm)
 wm_mask = wm_img.get_data().astype(np.bool)
 
+gm='gm_2x2x2.nii'
+gm_img = nib.load(gm)
+gm_mask = gm_img.get_data().astype(np.bool)
+
+csf='csf_2x2x2.nii'
+csf_img = nib.load(csf)
+csf_mask = csf_img.get_data().astype(np.bool)
+
+fa='fa_2x2x2.nii'
+fa_img = nib.load(fa)
+fa_mask = fa_img.get_data().astype(np.bool)
+
 wb='b0_2x2x2_brain_mask.nii.gz'
 wb_img = nib.load(wb)
 whole_mask = wb_img.get_data().astype(np.bool)
@@ -44,11 +56,11 @@ from dipy.reconst.peaks import peaks_from_model, reshape_peaks_for_visualization
 bval = 'encoding.bval'
 bvec = 'encoding.bvec'
 b_vals, b_vecs = read_bvals_bvecs(bval, bvec)
-gtab = gradient_table_from_bvals_bvecs(b_vals, b_vecs)
+gtab = gradient_table_from_bvals_bvecs(b_vals, b_vecs, b0_threshold=10)
 
 from dipy.reconst.csdeconv import recursive_response
 
-"""dti for fa"""
+# """dti for fa"""
 
 # import dipy.reconst.dti as dti
 # tenmodel = dti.TensorModel(gtab)

@@ -87,7 +87,7 @@ class GradientTable(object):
         print('         max %f ' % self.bvecs.max())
 
 
-def gradient_table_from_bvals_bvecs(bvals, bvecs, b0_threshold=10, atol=1e-2,
+def gradient_table_from_bvals_bvecs(bvals, bvecs, b0_threshold=0, atol=1e-2,
                                   **kwargs):
     """Creates a GradientTable from a bvals array and a bvecs array
 
